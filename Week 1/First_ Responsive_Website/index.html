@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Web Adventure</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="header-content">
+            <nav>
+                <div class="header-logo">
+                    <a href="#">ADVENTURE</a>
+                </div>
+                <div class="header-menu">
+                    <ul class="header-menu-link">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Projects</a></li>
+                    </ul>
+                    <div class="menu-contact">
+                        <a href="#">Contact Us</a>
+                    </div>
+                </div>
+                <div class="menu-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path fill-rule="evenodd"
+                            d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </div>
+            </nav>
+        </div>
+
+        <div class="header-con">
+            <div class="header-info">
+                <h2>Explore The Colorful World</h2>
+                <div class="line"></div>
+                <h1>A WONDERFUL GIFT</h1>
+                <div class="info-btn">
+                    <a href="#">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- events -->
+    <section class="events">
+        <div class="title">
+            <h1>UPCOMING EVENTS</h1>
+            <div class="line"></div>
+        </div>
+        <div class="events-row">
+            <div class="events-column">
+                <img src="https://www.grisport.co.uk/blog/wp-content/uploads/2021/07/hiking.jpeg" alt="hiking">
+                <h4>Everest Camp Trek</h4>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium voluptas nisi sapiente similique cum aliquid.</p>
+                <a href="#">Learn more</a>
+            </div>
+            <div class="events-column">
+                <img src="https://res.cloudinary.com/peloton-cycle/image/fetch/f_auto,c_limit,w_3840,q_90/https://images.ctfassets.net/6ilvqec50fal/5AtFcTdNjHhNIthq4ZMasP/bacc783e19f82dccd5473708179435e2/mental-health-benefits-of-walking-01.jpg" alt="walking">
+                <h4>Walking Holidays</h4>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium voluptas nisi sapiente similique cum aliquid.</p>
+                <a href="#">Learn more</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- explore -->
+    <section class="explore">
+        <div class="explore-content">
+            <div class="explore-content-title">
+                <h1>EXPLORE THE WORLD</h1>
+                <div class="line"></div>
+            </div>
+
+            <div class="explore-content-info">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse blanditiis porro accusantium. Eveniet totam fuga, animi laudantium officia, sequi, nulla excepturi dignissimos accusamus pariatur dolorum.</p>
+                <a href="#">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Tourist -->
+    <section class="tours">
+        <div class="tours-contents">
+            <div class="tours-title">
+                <h2>UPCOMING 
+                    TOURS & 
+                    DESTINATION
+                </h2>
+                <div class="line"></div>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error corrupti necessitatibus velit deserunt optio! Voluptatibus sed fuga consectetur. Ipsum reprehenderit nobis maxime? Voluptas, quibusdam? Ut commodi voluptate cumque ipsam quibusdam illo officia repellendus. Commodi laudantium distinctio quo excepturi. Nam, dicta?</p>
+                <a href="#">Learn More</a>
+            </div>
+            <div class="tours-gallery">
+                <div class="tours-images">
+                    <img src="https://a.storyblok.com/f/142343/1920x2400/80fa2a942f/hiking-on-mountain.jpg/m/769x586/smart" alt="">
+                    <img src="https://media.gettyimages.com/id/1264025129/photo/mountain-bikers-taking-selfie-on-trail.jpg?s=612x612&w=gi&k=20&c=wrBnDOcr8ShP8EzvkSlXfBgF7P3DgjG3uKmTKpCjhUI=" alt="">
+                    <img src="https://img.freepik.com/free-photo/woman-sitting-mountain-top_181624-469.jpg" alt="">
+                    <img src="https://dakilanglaagan.com/wp-content/uploads/2020/05/wp-1590037392829.jpg?w=1200" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>123 Fifth Avenue NY 10160, New York, USA | Phone: 123-456-789 | Email: cantact@example.com</p>
+        <br><p>Copyright &copy; 2020 Outdoor Adventure</p>
+    </footer>
+
+    <script>
+        const menuBtn = document.querySelector('.menu-btn');
+        const headerMenu = document.querySelector('.header-menu');
+
+        menuBtn.addEventListener('click', () => {
+            headerMenu.classList.toggle('mobile-menu')
+        } )
+    </script>
+
+</body>
+
+</html>
