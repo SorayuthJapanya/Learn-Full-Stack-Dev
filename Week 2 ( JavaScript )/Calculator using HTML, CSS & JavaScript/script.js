@@ -39,6 +39,13 @@ arr.forEach(button => {
             return;
         }
 
+        if (isResultDisplayed) {
+            if (!isNaN(btnValue) || btnValue === ".") {
+                currentString = "";
+            }
+            isResultDisplayed = false;
+        }
+
         currentString += btnValue;
         input.value = currentString;
     });
