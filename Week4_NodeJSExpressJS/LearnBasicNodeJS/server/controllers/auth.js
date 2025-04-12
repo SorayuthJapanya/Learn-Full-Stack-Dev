@@ -52,7 +52,7 @@ exports.login = async (req, res) => {
             }
 
             // Third Generator Token
-            jwt.sign(payload, 'jwtsecret', { expiresIn: 30 }, (err, token) => {
+            jwt.sign(payload, 'jwtsecret', { expiresIn: '1d' }, (err, token) => {
                 if (err) throw err;
                 res.json({ token, payload })
             });

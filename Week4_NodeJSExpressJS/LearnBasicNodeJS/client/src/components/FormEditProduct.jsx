@@ -27,7 +27,7 @@ const FormEditProduct = () => {
         console.log("Updated successfully");
         navigate('/');
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error))
   }
 
   useEffect(() => {
