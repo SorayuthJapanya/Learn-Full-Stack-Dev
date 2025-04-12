@@ -7,7 +7,10 @@ const FormAddProduct = (props) => {
     <form
       onSubmit={handleSubmit}
       className="max-w-md w-full mx-auto m-8 bg-slate-200 p-6 rounded-md shadow-xl"
+      encType="multipart/form-data"
     >
+
+      {/* Name */}
       <div className="mb-4 w-full flex flex-col gap-2">
         <label
           htmlFor="name"
@@ -23,6 +26,8 @@ const FormAddProduct = (props) => {
           placeholder="EuroNN12345"
         />
       </div>
+
+      {/* Detail */}
       <div className="mb-4 w-full flex flex-col gap-2">
         <label
           htmlFor="name"
@@ -38,6 +43,9 @@ const FormAddProduct = (props) => {
           placeholder="MSI"
         />
       </div>
+
+
+      {/* Price */}
       <div className="mb-4 w-full flex flex-col gap-2">
         <label
           htmlFor="name"
@@ -53,6 +61,23 @@ const FormAddProduct = (props) => {
           placeholder="24990"
         />
       </div>
+
+      {/* Image */}
+      <div className="mb-4 w-full flex flex-col gap-2">
+        <label
+          htmlFor="name"
+          className="block text-left mb-2 text-md font-medium text-gray-900 "
+        >
+          Product Image
+        </label>
+        <input
+          type="file"
+          id="file"
+          onChange={handleNameChange}
+          className="block w-full text-md  p-2.5 border rounded-lg cursor-pointer text-white focus:outline-none bg-gray-700 border-gray-600 "
+        />
+      </div>
+
       <button
         type="submit"
         className="mt-6 block px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-800 cursor-pointer text-md font-medium outlinenone"

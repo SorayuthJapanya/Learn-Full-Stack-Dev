@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { readData, updateData } from "../functions/Product";
 
@@ -11,28 +11,56 @@ const FormEditProduct = () => {
     name: "",
     detail: "",
     price: "",
+    file: "",
   });
+  const [fileOld, setFileOld] = useState(null);
 
-  function handleNameChange(e) {
-    setForm({
-      ...form,
-      [e.target.id]: e.target.value,
-    });
+  function handleChange(e) {
+    const { id, value, files } = e.target;
+
+    if (id === "file") {
+      if (files && files[0]) {
+        console.log("Selected file:", {
+          name: files[0].name,
+          size: files[0].size,
+          type: files[0].type,
+        });
+      }
+    }
+
+    setForm((prevForm) => ({
+      ...prevForm,
+      [id]: id === "file" ? files[0] : value,
+    }));
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
-    updateData(param.id, form)
-      .then((res) => {
-        console.log("Updated successfully");
-        navigate('/');
-      })
-      .catch((error) => console.log(error))
-  }
+    // console.log(form)
+    try {
+      const formWithImageData = new FormData();
 
-  useEffect(() => {
-    loadData(param.id);
-  }, []);
+      for (const key in form) {
+        if (key === "file" && form[key]) {
+          // console.log("Appending file:", form[key]);
+          formWithImageData.append("file", form[key]); 
+        } else if (form[key] !== null && form[key] !== undefined) {
+          formWithImageData.append(key, form[key]);
+        }
+      }
+
+      if (fileOld) {
+        formWithImageData.append('fileold', fileOld); 
+        // console.log(fileOld);
+      }
+
+      const res = await updateData(param.id, formWithImageData);
+      console.log("Updated Succesfully!!")
+      navigate('/')
+    } catch (error) {
+      console.error("Submit failed:", error);
+    }
+  }
 
   const loadData = async (id) => {
     readData(id)
@@ -43,11 +71,14 @@ const FormEditProduct = () => {
           detail: res.data.detail || "",
           price: res.data.price || "",
         });
+        setFileOld(res.data.file);
       })
       .catch((error) => console.log(error));
   };
 
-  console.log(data);
+  useEffect(() => {
+    loadData(param.id);
+  }, []);
 
   return (
     <div className="flex flex-col w-full h-screen mt-10">
@@ -57,6 +88,7 @@ const FormEditProduct = () => {
       <form
         onSubmit={handleSubmit}
         className="max-w-md w-full mx-auto m-8 bg-slate-200 p-6 rounded-md shadow-xl"
+        encType="multipart/form-data"
       >
         <div className="mb-4 w-full flex flex-col gap-2">
           <label
@@ -68,7 +100,7 @@ const FormEditProduct = () => {
           <input
             type="text"
             id="name"
-            onChange={handleNameChange}
+            onChange={handleChange}
             className="block w-full p-2.5 bg-gray-700 border border-gray-600 rounded-lg text-white"
             placeholder="EuroNN12345"
             value={form.name}
@@ -84,7 +116,7 @@ const FormEditProduct = () => {
           <input
             type="text"
             id="detail"
-            onChange={handleNameChange}
+            onChange={handleChange}
             className="block w-full p-2.5 bg-gray-700 border border-gray-600 rounded-lg text-white"
             placeholder="MSI"
             value={form.detail}
@@ -100,10 +132,25 @@ const FormEditProduct = () => {
           <input
             type="text"
             id="price"
-            onChange={handleNameChange}
+            onChange={handleChange}
             className="block w-full p-2.5 bg-gray-700 border border-gray-600 rounded-lg text-white"
             placeholder="24990"
             value={form.price}
+          />
+        </div>
+        {/* Image */}
+        <div className="mb-4 w-full flex flex-col gap-2">
+          <label
+            htmlFor="name"
+            className="block text-left mb-2 text-md font-medium text-gray-900 "
+          >
+            Product Image
+          </label>
+          <input
+            type="file"
+            id="file"
+            onChange={handleChange}
+            className="block w-full text-md  p-2.5 border rounded-lg cursor-pointer text-white focus:outline-none bg-gray-700 border-gray-600 "
           />
         </div>
         <button

@@ -15,11 +15,14 @@ const TableProduct = (props) => {
             <th scope="col" className="px-6 py-3">
               Product Name
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th sc  ope="col" className="px-6 py-3">
               Detail
             </th>
             <th scope="col" className="px-6 py-3">
               Price
+            </th>
+            <th scope="col" className="px-6 py-3">
+              File
             </th>
             <th scope="col" className="py-3 text-center">
               Edit
@@ -46,6 +49,7 @@ const TableProduct = (props) => {
                     <td className="px-6 py-4">{items.name}</td>
                     <td className="px-6 py-4">{items.detail}</td>
                     <td className="px-6 py-4">${items.price}</td>
+                    <td className="px-6 py-4">{items.file}</td>
                     <td className="text-center">
                       <Link
                         to={"/edit/" + items._id}

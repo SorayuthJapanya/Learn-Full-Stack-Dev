@@ -19,10 +19,17 @@ const FormProduct = () => {
   };
 
   function handleNameChange(e) {
-    setForm({
-      ...form,
-      [e.target.id]: e.target.value,
-    });
+    if (e.target.id === "file") {
+      setForm({
+        ...form,
+        [e.target.id]: e.target.files[0],
+      });
+    } else {
+      setForm({
+        ...form,
+        [e.target.id]: e.target.value,
+      });
+    }
   }
 
   async function handleRemove(id) {
@@ -33,11 +40,19 @@ const FormProduct = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    addData(form)
-      .then((res) => {
-        loadData();
-      })
-      .catch((error) => console.log(error));
+    try {
+      const formWithImageData = new FormData();
+
+      for (const key in form) {
+        formWithImageData.append(key, form[key]);
+      }
+
+      const res = await addData(formWithImageData);
+      console.log(res.data);
+      loadData();
+    } catch (error) {
+      console.error("Submit failed:", error);
+    }
   }
 
   // console.log(form);
