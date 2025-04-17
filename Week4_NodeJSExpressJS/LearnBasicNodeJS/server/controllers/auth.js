@@ -6,9 +6,19 @@ const jwt = require('jsonwebtoken');
 exports.register = async (req, res) => {
     try {
         // First CheckUser
-        const { name, password } = req.body;
-        console.log(`Registering:${name} Password:${password}`);
+        const { name, password, confirmPassword } = req.body;
+        
+        if (!name || !password || !confirmPassword) {
+            return res.status(400).json({
+                error: "All fields (name, password, confirmPassword) are required"
+            });
+        }
+        console.log(`Registering: ${name}`);
         // console.log('')
+
+        if (req.body.password != req.body.confirmPassword) {
+            return res.status(400).send("Password don't match!!");
+        }
 
         const isUser = await Users.findOne({ name });
         if (isUser) {
@@ -60,6 +70,7 @@ exports.login = async (req, res) => {
         } else {
             res.status(400).send('User not found!!');
         }
+        res.status(201).send('User login successfully!');
     } catch (error) {
         console.log(error);
         res.status(500).send('Server Error');

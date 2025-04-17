@@ -4,8 +4,9 @@ const express = require('express');
 const { readdirSync } = require('fs');
 const morgan = require('morgan');
 const cors = require('cors');
-const bodyParser = require('body-parser'); 
+const bodyParser = require('body-parser');
 const connectDB = require('./config/mongooseDB')
+
 
 app = express();
 connectDB();
@@ -13,7 +14,9 @@ connectDB();
 // middleware
 app.use(morgan('dev'));
 app.use(cors());
-app.use(bodyParser.json({limit: '10mb'}))
+app.use(bodyParser.json({ limit: '10mb' }))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // variable
 PORT = 5000;

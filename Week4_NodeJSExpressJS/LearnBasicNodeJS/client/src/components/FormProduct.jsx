@@ -59,7 +59,7 @@ const FormProduct = () => {
 
   return (
     <section className="flex flex-col my-8 max-w-[1140px] w-full ">
-      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4 font-semibold">
+      <h2 className="text-center text-xl sm:text-2xl md:text-3xl lg:text-4 font-semibold">
         Form Product
       </h2>
 
