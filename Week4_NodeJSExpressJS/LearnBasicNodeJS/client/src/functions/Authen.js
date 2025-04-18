@@ -16,3 +16,11 @@ export const authCurrentUser = async (authtoken) => {
         }
     })
 }
+
+export const authCurrentAdmin = async (authtoken) => {
+    return await axios.post(import.meta.env.VITE_API_URL + "/current-admin", {}, {
+        headers: {
+            authtoken
+        }
+    })
+}

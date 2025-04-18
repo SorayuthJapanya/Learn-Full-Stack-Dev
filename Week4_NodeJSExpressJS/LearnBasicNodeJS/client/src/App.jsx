@@ -23,11 +23,13 @@ import { authCurrentUser } from "./functions/Authen";
 import { useDispatch } from "react-redux";
 import { login } from "./store/userslice";
 
+import Notfound404 from "./components/pages/Notfound404";
+
 const App = () => {
   const dispatch = useDispatch();
 
   const idToken = localStorage.getItem("token");
-  console.log("token: ", idToken);
+  // console.log("token: ", idToken);
 
   authCurrentUser(idToken)
     .then((res) => {
@@ -48,6 +50,12 @@ const App = () => {
         {/* Public */}
         <Routes>
           <Route path="/authen" element={<Authen />} />
+          <Route
+            path="*"
+            element={
+              <Notfound404 text="The page you’re looking for doesn’t exist." />
+            }
+          />
 
           {/* User */}
           <Route

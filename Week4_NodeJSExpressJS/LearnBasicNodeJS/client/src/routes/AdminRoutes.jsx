@@ -1,16 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 
-const AdminRoutes = ({ children }) => {
-  return (
-    <div className="flex flex-col mx-auto max-w-[1140px] w-full text-center">
-      {/* <div className="flex flex-col m-6 gap-4">
-        <TestRedux1 />
-        <TestRedux2 />
-      </div> */}
+import { authCurrentAdmin } from "../functions/Authen";
+import Notfound404 from "../components/pages/Notfound404";
 
-      { children }
+const AdminRoutes = ({ children }) => {
+  const user = useSelector((state) => state.user);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (user && user.token) {
+      authCurrentAdmin(user.token)
+        .then((res) => {
+          setIsAdmin(true);
+        })
+        .catch((error) => {
+          console.log(error);
+          setIsAdmin(false);
+        });
+    }
+  }, [user]);
+
+  // console.log("Admin Route: ", user.role);
+
+  const text = "You are not a Admin!!"
+
+  return isAdmin ? (
+
+
+    <div className="flex flex-col mx-auto max-w-[1140px] w-full text-center">
+      {children}
     </div>
+  ) : (
+    <Notfound404 text={text}/>
   );
 };
 

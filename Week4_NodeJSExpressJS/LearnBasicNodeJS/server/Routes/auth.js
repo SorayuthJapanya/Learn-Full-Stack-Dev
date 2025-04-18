@@ -11,7 +11,10 @@ const {
 } = require('../controllers/auth')
 
 // Middleware
-const { auth } = require('../Middleware/auth');
+const {
+    auth,
+    adminCheck
+} = require('../Middleware/auth');
 
 
 
@@ -19,5 +22,6 @@ const { auth } = require('../Middleware/auth');
 router.post('/register', upload.none(), register);
 router.post('/login', upload.none(), login);
 router.post('/current-user', auth, currentUser)
+router.post('/current-admin', auth, adminCheck, currentUser)
 
 module.exports = router;

@@ -49,7 +49,7 @@ const Authen = () => {
         roleRediret(role);
       }
       
-      console.log("Success: ", res.data);
+      // console.log("Success: ", res.data);
     } catch (error) {
       console.log(error);
     }
