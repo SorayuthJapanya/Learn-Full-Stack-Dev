@@ -1,9 +1,22 @@
 import React, { useRef } from "react";
 import { useState } from "react";
 import { authRegister, authLogin } from "../../../functions/Authen";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login as loginRedux } from "../../../store/userslice";
 
 const Authen = () => {
   const [activeButton, setActiveButton] = useState("login");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const roleRediret = (role) => {
+    if (role === "ADMIN") {
+      navigate("/admin/index");
+    } else {
+      navigate("/user/index");
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,12 +30,26 @@ const Authen = () => {
           confirmPassword: formData.get("confirmPassword"),
         }),
       };
-      const res =
-        activeButton === "login" ? await authLogin(data) : await authRegister(data);
 
-      console.log(data)
-      alert(res.data);
-      console.log("Success: ", res.data)
+      const res =
+        activeButton === "login"
+          ? await authLogin(data)
+          : await authRegister(data);
+
+      if (activeButton === "login") {
+        const { name, role } = res.data.payload.user;
+        dispatch(
+          loginRedux({
+            name,
+            role,
+            token: res.data.token,
+          })
+        );
+        localStorage.setItem("token", res.data.token);
+        roleRediret(role);
+      }
+      
+      console.log("Success: ", res.data);
     } catch (error) {
       console.log(error);
     }

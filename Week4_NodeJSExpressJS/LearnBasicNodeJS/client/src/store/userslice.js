@@ -1,21 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    value: 'Euro Sorayuth',
-    user: 'Oraya'
+    name: '',
+    role: '',
+    token: '',
+    isLoggin: false,
 }
 
 export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        login: (state) => {
-            state.value = "Euro"
-            state.user = "Luv Oraya"
+        login: (state, action) => {
+            state.name = action.payload.name;
+            state.role = action.payload.role;
+            state.token = action.payload.token;
+            state.isLoggin = true;
         },
         logout: (state) => {
-            state.value = "Euro Still"
-            state.user = "Luv Oraya"
+            state.name = '';
+            state.role = '';
+            state.token = '';
+            state.isLoggin = false;
         },
         incrementByAmount: (state, action) => {
             state.value += action.payload

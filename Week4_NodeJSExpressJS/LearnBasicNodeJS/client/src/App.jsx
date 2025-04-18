@@ -12,28 +12,78 @@ import Authen from "./components/pages/authen/Authen";
 // User
 import HomePageUser from "./components/pages/user/HomePageUser";
 
+//Routes
+import AdminRoutes from "./routes/AdminRoutes";
+import UserRoutes from "./routes/UserRoutes";
+import HomePageAdmin from "./components/pages/admin/HomePageAdmin";
+
+// function
+import { authCurrentUser } from "./functions/Authen";
+
+import { useDispatch } from "react-redux";
+import { login } from "./store/userslice";
+
 const App = () => {
+  const dispatch = useDispatch();
+
+  const idToken = localStorage.getItem("token");
+  console.log("token: ", idToken);
+
+  authCurrentUser(idToken)
+    .then((res) => {
+      // console.log(res);
+      dispatch(
+        login({
+          name: res.data.name,
+          role: res.data.role,
+          token: idToken,
+        })
+      );
+    })
+    .catch((err) => console.log(err));
 
   return (
     <BrowserRouter>
       <main className="flex flex-col w-full h-screen items-center bg-slate-100">
-        <div className="flex flex-col mx-auto max-w-[1140px] w-full text-center">
-          {/* <div className="flex flex-col m-6 gap-4">
-              <TestRedux1 />
-              <TestRedux2 />
-            </div> */}
-          <Routes>
-            <Route path="/" element={<FormProduct />} />
-            <Route path="/edit/:id" element={<FormEditProduct />} />
-          </Routes>
-        </div>
         {/* Public */}
         <Routes>
           <Route path="/authen" element={<Authen />} />
 
           {/* User */}
-          <Route path="/user/index" element={<HomePageUser />} />
+          <Route
+            path="/user/index"
+            element={
+              <UserRoutes>
+                <HomePageUser />
+              </UserRoutes>
+            }
+          />
 
+          {/* Admin */}
+          <Route
+            path="/admin/index"
+            element={
+              <AdminRoutes>
+                <HomePageAdmin />
+              </AdminRoutes>
+            }
+          />
+          <Route
+            path="/admin/table"
+            element={
+              <AdminRoutes>
+                <FormProduct />
+              </AdminRoutes>
+            }
+          />
+          <Route
+            path="/edit/:id"
+            element={
+              <AdminRoutes>
+                <FormEditProduct />
+              </AdminRoutes>
+            }
+          />
         </Routes>
       </main>
     </BrowserRouter>

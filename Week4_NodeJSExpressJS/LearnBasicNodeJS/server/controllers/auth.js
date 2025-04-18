@@ -7,7 +7,7 @@ exports.register = async (req, res) => {
     try {
         // First CheckUser
         const { name, password, confirmPassword } = req.body;
-        
+
         if (!name || !password || !confirmPassword) {
             return res.status(400).json({
                 error: "All fields (name, password, confirmPassword) are required"
@@ -57,7 +57,8 @@ exports.login = async (req, res) => {
             // Second Payload
             const payload = {
                 user: {
-                    name: user.name
+                    name: user.name,
+                    role: user.role
                 }
             }
 
@@ -70,9 +71,20 @@ exports.login = async (req, res) => {
         } else {
             res.status(400).send('User not found!!');
         }
-        res.status(201).send('User login successfully!');
     } catch (error) {
         console.log(error);
         res.status(500).send('Server Error');
+    }
+}
+
+exports.currentUser = async (req, res) => {
+    try {
+        console.log("Current User", req.user)
+        const user = await Users.findOne({name: req.user.name}).select('-password') .exec()
+
+        res.send(user);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Server Error")
     }
 }
