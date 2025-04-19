@@ -24,6 +24,8 @@ import { useDispatch } from "react-redux";
 import { login } from "./store/userslice";
 
 import Notfound404 from "./components/pages/Notfound404";
+import NavBar from "./components/NavBar";
+import HomePage from "./components/pages/HomePage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -47,13 +49,15 @@ const App = () => {
   return (
     <BrowserRouter>
       <main className="flex flex-col w-full h-screen items-center bg-slate-100">
+        <NavBar />
         {/* Public */}
         <Routes>
           <Route path="/authen" element={<Authen />} />
+          <Route path="/" element={<HomePage />} />
           <Route
             path="*"
             element={
-              <Notfound404 text="The page you’re looking for doesn’t exist." />
+              <Notfound404 text="The page you're looking for doesn't exist." />
             }
           />
 
