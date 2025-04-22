@@ -1,6 +1,7 @@
 const Message = require("../models/messageModel");
 const User = require("../models/userModel");
 const cloudinary = require("../lib/cloudinary");
+const { getReceiverSocketId, io } = require("../lib/socket");
 
 exports.getUsersForSidebar = async (req, res) => {
   try {
@@ -21,17 +22,17 @@ exports.getMessages = async (req, res) => {
     const { id: userToChatId } = req.params;
     const myId = req.user._id;
 
-    const message = await Message.find({
+    const messages = await Message.find({
       $or: [
         { senderID: myId, receiverID: userToChatId },
-        { senderId: userToChatId, receiverID: myId },
+        { senderID: userToChatId, receiverID: myId },
       ],
     });
 
-    res.status(200).json(message);
+    res.status(200).json(messages);
   } catch (error) {
-    console.log("Error in get message controller", error);
-    res.status(500).json({ message: "Internal Server Error!!" });
+    console.log("Error in getMessages controller: ", error.message);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -55,9 +56,16 @@ exports.sendMessage = async (req, res) => {
       image: imageUrl,
     });
 
+    console.log("Sending message:", newMessage);
+
     await newMessage.save();
 
     // todo: realtime functionality goes here => socket.io
+    const receiverSocketId = getReceiverSocketId(receiverID);
+    console.log("receiverSocketId:", receiverSocketId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
     res.status(201).json(newMessage);
   } catch (error) {
     console.log("Error in sendMessage controller", error);

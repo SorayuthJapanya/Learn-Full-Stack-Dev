@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
+import { axiosInstance } from "../lib/axios";
+import { useAuthStore } from "./useAuthStore";
 
 export const useChatStore = create((set, get) => ({
   messages: [],
@@ -11,11 +12,9 @@ export const useChatStore = create((set, get) => ({
 
   getUsers: async () => {
     set({ isUsersLoading: true });
-    // if (users.length > 0) return;
     try {
       const res = await axiosInstance.get("/message/users");
       set({ users: res.data });
-      // console.log(res.data);
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
@@ -23,10 +22,10 @@ export const useChatStore = create((set, get) => ({
     }
   },
 
-  getMessages: async (userID) => {
+  getMessages: async (userId) => {
     set({ isMessagesLoading: true });
     try {
-      const res = await axiosInstance.get(`/message/${userID}`);
+      const res = await axiosInstance.get(`/message/${userId}`);
       set({ messages: res.data });
     } catch (error) {
       toast.error(error.response.data.message);
@@ -34,7 +33,6 @@ export const useChatStore = create((set, get) => ({
       set({ isMessagesLoading: false });
     }
   },
-
   sendMessage: async (messageData) => {
     const { selectedUser, messages } = get();
     try {
@@ -48,8 +46,27 @@ export const useChatStore = create((set, get) => ({
     }
   },
 
-  // todo: optimize this one later
-  setSelectedUser: (user) => {
-    set({ selectedUser: user });
+  subscribeToMessages: () => {
+    const { selectedUser } = get();
+    if (!selectedUser) return;
+
+    const socket = useAuthStore.getState().socket;
+
+    socket.on("newMessage", (newMessage) => {
+      const isMessageSentFromSelectedUser =
+        newMessage.senderId === selectedUser._id;
+      if (!isMessageSentFromSelectedUser) return;
+
+      set({
+        messages: [...get().messages, newMessage],
+      });
+    });
   },
+
+  unsubscribeFromMessages: () => {
+    const socket = useAuthStore.getState().socket;
+    socket.off("newMessage");
+  },
+
+  setSelectedUser: (selectedUser) => set({ selectedUser }),
 }));

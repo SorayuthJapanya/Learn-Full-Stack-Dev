@@ -37,9 +37,9 @@ const Sidebar = () => {
             key={user._id}
             onClick={(e) => {
               e.stopPropagation(); // ป้องกัน event bubbling
-              console.log("Before select:", users); // Debug
+              // console.log("Before select:", users); // Debug
               setSelectedUser(user);
-              console.log("After select:", users); // Debug
+              // console.log("After select:", users); // Debug
             }}
             className={`
               w-full p-3 flex items-center gap-3
