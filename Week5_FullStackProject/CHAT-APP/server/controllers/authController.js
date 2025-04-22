@@ -6,11 +6,11 @@ const bcrypt = require("bcryptjs");
 // SIGN-UP
 exports.signup = async (req, res) => {
   const { fullName, email, password } = req.body;
-  //   console.log(`full: ${fullName}, email: ${email}, pass: ${password}`);
+  console.log(`full: ${fullName}, email: ${email}, pass: ${password}`);
   try {
     // Check require
     if (!fullName || !email || !password) {
-      res.status(400).json({ message: "All fields are required!!" });
+      return res.status(400).json({ message: "All fields are required!!" });
     }
 
     if (password.length < 6) {
@@ -61,6 +61,8 @@ exports.signup = async (req, res) => {
 // LOG-IN
 exports.login = async (req, res) => {
   const { email, password } = req.body;
+  console.log(`Email: ${email}, Pass: ${password}`);
+
   try {
     const user = await User.findOne({ email });
 
@@ -100,10 +102,11 @@ exports.logout = (req, res) => {
 exports.updateProfile = async (req, res) => {
   try {
     const { profilePic } = req.body;
+    
     const userID = req.user._id;
 
     if (!profilePic)
-      return res.status(400).json({ message: "Profile Oic is required!!" });
+      return res.status(400).json({ message: "Profile Pic is required!!" });
 
     const uploadResponse = await cloudinary.uploader.upload(profilePic);
     const updatedUser = await User.findByIdAndUpdate(
